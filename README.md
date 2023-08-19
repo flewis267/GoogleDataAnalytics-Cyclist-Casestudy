@@ -26,6 +26,7 @@ To prepare the data I downloaded 12 months of data and merged them in RStudio. T
 
 ```r
 library(tidyverse)
+library(lubridate)
 ```
 **Console**
 ```
@@ -38,6 +39,37 @@ library(tidyverse)
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package to force all conflicts to become errors
+```
+
+To make my data readable by RStudio I created 12 data frames using csv.read().
+
+```r
+df1 <- read.csv("D:/Cyclistic_Capstone/Data/202104-divvy-tripdata.csv")
+df2 <- read.csv("D:/Cyclistic_Capstone/Data/202105-divvy-tripdata.csv")
+df3 <- read.csv("D:/Cyclistic_Capstone/Data/202106-divvy-tripdata.csv")
+df4 <- read.csv("D:/Cyclistic_Capstone/Data/202107-divvy-tripdata.csv")
+df5 <- read.csv("D:/Cyclistic_Capstone/Data/202108-divvy-tripdata.csv")
+df6 <- read.csv("D:/Cyclistic_Capstone/Data/202109-divvy-tripdata.csv")
+df7 <- read.csv("D:/Cyclistic_Capstone/Data/202110-divvy-tripdata.csv")
+df8 <- read.csv("D:/Cyclistic_Capstone/Data/202111-divvy-tripdata.csv")
+df9 <- read.csv("D:/Cyclistic_Capstone/Data/202112-divvy-tripdata.csv")
+df10 <- read.csv("D:/Cyclistic_Capstone/Data/202201-divvy-tripdata.csv")
+df11 <- read.csv("D:/Cyclistic_Capstone/Data/202202-divvy-tripdata.csv")
+df12 <- read.csv("D:/Cyclistic_Capstone/Data/202203-divvy-tripdata.csv")
+```
+
+I combined the data frames using rbind().
+```r
+bike_rides <- rbind(df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12)
+```
+
+To make sure the process has worked I used the dim() function to get the size of bike_rides.
+```r
+dim(bike_rides)
+```
+**Output**
+```
+[1] 5723532      13
 ```
 
 ### Process
