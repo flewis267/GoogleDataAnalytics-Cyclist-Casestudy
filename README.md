@@ -22,7 +22,7 @@ The team that collected the data at Cyclistic has outlined some information abou
 * The term 'docked bikes' should be replaced with 'classic bikes'.
 * Classic bikes must be docked at a station whereas Electric bikes can be parked anywhere.
 
-To prepare the data I downloaded 12 months of data and merged them in RStudio. The first thing I did before starting is to install some dependencies that will help me achieve future tasks in R.
+To prepare the data I downloaded 12 months of data and merged them in RStudio. The first thing I did before starting was to install some dependencies that will help me achieve future tasks in R.
 
 ```r
 library(tidyverse)
@@ -77,9 +77,6 @@ I have decided to separate the date times in the started_at and ended_at columns
 
 ```r
 # parse time
-bike_rides$start_at <- lubridate::ymd_hms(bike_rides$started_at)
-bike_rides$end_at <- lubridate::ymd_hms(bike_rides$ended_at)
-
 bike_rides$start_hour <- lubridate::hour(bike_rides$started_at)
 bike_rides$end_hour <- lubridate::hour(bike_rides$ended_at)
 
@@ -87,7 +84,15 @@ bike_rides$start_date <- as.Date(bike_rides$started_at)
 bike_rides$end_date <- as.Date(bike_rides$ended_at)
 ```
 
-After running the code I decided to check it worked by creating a bar chart that shows the number of rides started by hour.
+After running the code I decided to check it worked by creating a bar chart that shows the number of rides started by hour. As this was a test I decided not to add colours.
+
+```r
+bike_rides %>% count(start_hour, sort = T) %>% 
+  ggplot(aes(x = start_hour, y = n)) + geom_bar(stat = "identity") +
+  scale_y_continuous(label = comma) +
+  labs(title = "Bike rides started by hour", 
+       x = "Start Hour", y = "Ride Count")
+```
 
 ![image](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/60c83a67-f1fd-4fb8-9b07-aeac5be74e31)
 
