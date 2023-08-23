@@ -27,6 +27,7 @@ To prepare the data I downloaded 12 months of data and merged them in RStudio. T
 ```r
 library(tidyverse)
 library(lubridate)
+library(scales)
 ```
 **Console**
 ```
@@ -71,6 +72,24 @@ dim(bike_rides)
 ```
 [1] 5723532      13
 ```
+
+I have decided to separate the date times in the started_at and ended_at columns to get the hour of the day that a bike was used.
+
+```r
+# parse time
+bike_rides$start_at <- lubridate::ymd_hms(bike_rides$started_at)
+bike_rides$end_at <- lubridate::ymd_hms(bike_rides$ended_at)
+
+bike_rides$start_hour <- lubridate::hour(bike_rides$started_at)
+bike_rides$end_hour <- lubridate::hour(bike_rides$ended_at)
+
+bike_rides$start_date <- as.Date(bike_rides$started_at)
+bike_rides$end_date <- as.Date(bike_rides$ended_at)
+```
+
+After running the code I decided to check it worked by creating a bar chart that shows the number of rides started by hour.
+
+![image](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/60c83a67-f1fd-4fb8-9b07-aeac5be74e31)
 
 ### Process
 I have chosen to use 
