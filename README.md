@@ -30,6 +30,7 @@ library(lubridate)
 library(scales)
 library(ggplot2)
 library(dplyr)
+library(hms)
 ```
 **Console**
 ```
@@ -61,6 +62,23 @@ df11 <- read.csv("D:/Cyclistic_Capstone/Data/202202-divvy-tripdata.csv")
 df12 <- read.csv("D:/Cyclistic_Capstone/Data/202203-divvy-tripdata.csv")
 ```
 
+I then calculated the time that each ride took, I used the HH:MM:SS format for the time. Also, this process couldn't be done after the data frames were bound due to crashing.
+
+```r
+df1$ride_length <- as_hms(difftime(df1$ended_at, df1$started_at, units = "secs"))
+df2$ride_length <- as_hms(difftime(df2$ended_at, df2$started_at, units = "secs"))
+df3$ride_length <- as_hms(difftime(df3$ended_at, df3$started_at, units = "secs"))
+df4$ride_length <- as_hms(difftime(df4$ended_at, df4$started_at, units = "secs"))
+df5$ride_length <- as_hms(difftime(df5$ended_at, df5$started_at, units = "secs"))
+df6$ride_length <- as_hms(difftime(df6$ended_at, df6$started_at, units = "secs"))
+df7$ride_length <- as_hms(difftime(df7$ended_at, df7$started_at, units = "secs"))
+df8$ride_length <- as_hms(difftime(df8$ended_at, df8$started_at, units = "secs"))
+df9$ride_length <- as_hms(difftime(df9$ended_at, df9$started_at, units = "secs"))
+df10$ride_length <- as_hms(difftime(df10$ended_at, df10$started_at, units = "secs"))
+df11$ride_length <- as_hms(difftime(df11$ended_at, df11$started_at, units = "secs"))
+df12$ride_length <- as_hms(difftime(df12$ended_at, df12$started_at, units = "secs"))
+```
+
 I combined the data frames using rbind().
 ```r
 bike_rides <- rbind(df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12)
@@ -86,6 +104,13 @@ bike_rides$start_date <- as.Date(bike_rides$started_at)
 bike_rides$end_date <- as.Date(bike_rides$ended_at)
 ```
 
+I also added a new column called 'day_of_week' to the data frame to get the day of the week that the bike journey started. (Monday - Sunday)
+
+```r
+# gets the day of the week from start_date
+bike_rides$day_of_week <- weekdays(bike_rides$start_date)
+```
+
 After running the code I decided to check it worked by creating a bar chart that shows the number of rides started by hour. As this was a test I decided not to add colours.
 
 ```r
@@ -98,10 +123,14 @@ bike_rides %>% count(start_hour, sort = T) %>%
 
 ![image](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/60c83a67-f1fd-4fb8-9b07-aeac5be74e31)
 
-Finally, I decided to export the bike_rides data frame to a CSV file so it could be loaded into PostgreSQL. 
+Finally, I decided to export the bike_rides data frame to a CSV file so it could be loaded into PostgreSQL. I also had to remove the NA values and replace them with nulls. 
 
 ```r
-write.csv(bike_rides, "C:\\Users\\felix\\Downloads\\bike_rides.csv", row.names = FALSE)
+# replaces NA values with nulls
+bike_rides[is.na(bike_rides)] <- ""
+
+# creates a CSV file
+write.table(bike_rides, "C:\\Users\\felix\\Downloads\\bike_rides.csv", sep = ",", row.names = FALSE, col.names = FALSE, quote = FALSE)
 ```
 
 To check this has worked I wrote some SQL code. I didn't import all columns as I was just testing PostgreSQL to see if it would crash with 5.7 million records.
@@ -112,45 +141,103 @@ LIMIT 10
 ```
 **Output**
 ```
-"6C992BD37A98A63F"	"classic_bike"	"State St & Pearson St"	"TA1307000061"	"Southport Ave & Waveland Ave"	"13235"	"41.897448"	"-87.628722"	"41.94815"	"-87.66394"	"member"	"18"	"18"	"2021-04-12"	"2021-04-12"
-"1E0145613A209000"	"docked_bike"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	"41.805772"	"-87.592464"	"41.805772"	"-87.592464"	"casual"	"17"	"18"	"2021-04-27"	"2021-04-27"
-"E498E15508A80BAD"	"docked_bike"	"Loomis Blvd & 84th St"	"20121"	"Loomis Blvd & 84th St"	"20121"	"41.741487"	"-87.65841"	"41.741487"	"-87.65841"	"casual"	"12"	"11"	"2021-04-03"	"2021-04-07"
-"1887262AD101C604"	"classic_bike"	"Honore St & Division St"	"TA1305000034"	"Southport Ave & Waveland Ave"	"13235"	"41.903119"	"-87.673935"	"41.94815"	"-87.66394"	"member"	"9"	"9"	"2021-04-17"	"2021-04-17"
-"C123548CAB2A32A5"	"docked_bike"	"Loomis Blvd & 84th St"	"20121"	"Loomis Blvd & 84th St"	"20121"	"41.741487"	"-87.65841"	"41.741487"	"-87.65841"	"casual"	"12"	"14"	"2021-04-03"	"2021-04-03"
-"097E76F3651B1AC1"	"classic_bike"	"Clinton St & Polk St"	"15542"	"Clinton St & Polk St"	"15542"	"41.87146651779"	"-87.6409491327"	"41.87146651779"	"-87.6409491327"	"casual"	"18"	"18"	"2021-04-25"	"2021-04-25"
-"53C38EB01E6FA5C4"	"classic_bike"	"Ashland Ave & 63rd St"	"16948"	"Ashland Ave & 63rd St"	"16948"	"41.779374"	"-87.664843"	"41.779374"	"-87.664843"	"casual"	"16"	"16"	"2021-04-03"	"2021-04-03"
-"D53AC014EFD6E2BA"	"electric_bike"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	"41.8058323333333"	"-87.5924785"	"41.8058028333333"	"-87.5926615"	"casual"	"16"	"17"	"2021-04-06"	"2021-04-06"
-"6E2F7CA1FA9E0AFB"	"classic_bike"	"Ashland Ave & 63rd St"	"16948"	"Ashland Ave & 63rd St"	"16948"	"41.779374"	"-87.664843"	"41.779374"	"-87.664843"	"casual"	"15"	"16"	"2021-04-12"	"2021-04-12"
-"04218447AAC80BD1"	"classic_bike"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	"41.805772"	"-87.592464"	"41.805772"	"-87.592464"	"casual"	"15"	"15"	"2021-04-24"	"2021-04-24"
+"6C992BD37A98A63F"	"classic_bike"	"2021-04-12 18:25:36"	"2021-04-12 18:56:55"	"State St & Pearson St"	"TA1307000061"	"Southport Ave & Waveland Ave"	"13235"	41.897448	-87.628722	41.94815	-87.66394	"member"	"00:31:19"	18	18	"2021-04-12"	"2021-04-12"	"Monday"
+"1887262AD101C604"	"classic_bike"	"2021-04-17 09:17:42"	"2021-04-17 09:42:48"	"Honore St & Division St"	"TA1305000034"	"Southport Ave & Waveland Ave"	"13235"	41.903119	-87.673935	41.94815	-87.66394	"member"	"00:25:06"	9	9	"2021-04-17"	"2021-04-17"	"Saturday"
+"097E76F3651B1AC1"	"classic_bike"	"2021-04-25 18:43:18"	"2021-04-25 18:43:59"	"Clinton St & Polk St"	"15542"	"Clinton St & Polk St"	"15542"	41.87146651779	-87.6409491327	41.87146651779	-87.6409491327	"casual"	"00:00:41"	18	18	"2021-04-25"	"2021-04-25"	"Sunday"
+"53C38EB01E6FA5C4"	"classic_bike"	"2021-04-03 16:28:21"	"2021-04-03 16:29:47"	"Ashland Ave & 63rd St"	"16948"	"Ashland Ave & 63rd St"	"16948"	41.779374	-87.664843	41.779374	-87.664843	"casual"	"00:01:26"	16	16	"2021-04-03"	"2021-04-03"	"Saturday"
+"D53AC014EFD6E2BA"	"electric_bike"	"2021-04-06 16:35:06"	"2021-04-06 17:00:56"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	41.8058323333333	-87.5924785	41.8058028333333	-87.5926615	"casual"	"00:25:50"	16	17	"2021-04-06"	"2021-04-06"	"Tuesday"
+"6E2F7CA1FA9E0AFB"	"classic_bike"	"2021-04-12 15:22:54"	"2021-04-12 16:15:48"	"Ashland Ave & 63rd St"	"16948"	"Ashland Ave & 63rd St"	"16948"	41.779374	-87.664843	41.779374	-87.664843	"casual"	"00:52:54"	15	16	"2021-04-12"	"2021-04-12"	"Monday"
+"04218447AAC80BD1"	"classic_bike"	"2021-04-24 15:04:55"	"2021-04-24 15:06:16"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	41.805772	-87.592464	41.805772	-87.592464	"casual"	"00:01:21"	15	15	"2021-04-24"	"2021-04-24"	"Saturday"
+"B45BBE0734834247"	"electric_bike"	"2021-04-03 18:03:40"	"2021-04-03 19:13:22"	"Loomis Blvd & 84th St"	"20121"	"Loomis Blvd & 84th St"	"20121"	41.7415615	-87.6584185	41.7415958333333	-87.6584198333333	"casual"	"01:09:42"	18	19	"2021-04-03"	"2021-04-03"	"Saturday"
+"70DEC4E102F00DC2"	"electric_bike"	"2021-04-24 18:01:29"	"2021-04-24 19:39:00"	"Halsted St & 69th St"	"15597"	"Halsted St & 69th St"	"15597"	41.7690143333333	-87.6446325	41.7690086666667	-87.6445838333333	"casual"	"01:37:31"	18	19	"2021-04-24"	"2021-04-24"	"Saturday"
+"B33484FA16A9A0FE"	"classic_bike"	"2021-04-27 18:31:52"	"2021-04-27 19:17:20"	"Dorchester Ave & 49th St"	"KA1503000069"	"Dorchester Ave & 49th St"	"KA1503000069"	41.805772	-87.592464	41.805772	-87.592464	"casual"	"00:45:28"	18	19	"2021-04-27"	"2021-04-27"	"Tuesday"
 ```
 
 
 ### Process
-Now I have prepared the data, I can process it. To do this I will continue to use PostgreSQL. I decided on PostgreSQL due to my familiarity with it and good reputation in the SQL industry. PostgreSQL is used by many large companies such as Netflix, Uber, Twitch, Instagram, Spotify, Reddit, and Skype. To keep data integrity I set out to ensure the trustworthiness and reliability of the data. I achieved this by checking for human error after each change to the database and keeping a changelog to revert any errors I have made. However, because of the documentation process I used (this Github readme file) the changelog is void but wouldn't be in production code.
+Now I have prepared the data, I can process it. To do this I will continue to use PostgreSQL. I decided on PostgreSQL due to my familiarity with it and its good reputation in the SQL industry. PostgreSQL is used by many large companies such as Netflix, Uber, Twitch, Instagram, Spotify, Reddit, and Skype. To keep data integrity I set out to ensure the trustworthiness and reliability of the data. I achieved this by checking for human error after each change to the database and keeping a changelog to revert any errors I have made. However, because of the documentation process I used (this Github readme file) the changelog is void but wouldn't be in production code.
 
 The columns of my database:
-* ride_id: The primary key, I checked in r for no duplicates before importing into PostgreSQL. Each string is 16 characters long. I will not need to do any data cleaning for this column.
+* ride_id: The primary key, I checked in r for duplicates before importing into PostgreSQL. Each string is 16 characters long. I will not need to do any data cleaning for this column.
 * rideable_type: The data consists of 2 different string values (formally 3), 'classic_bike', 'electic_bike', and formally 'docked_bike'.
+* started_at/ended_at: The start and end date of the ride, if one of these doesn't exist then the row should be deleted.
 * start_station_name/end_station_name: The name of the start station and end station. It should be noted that only classic bikes have a start station and end station. Electric bikes can be parked anywhere.
 * start_station_id/end_station_id: The id for the start station and end station.
 * start_lat/end_lat & start_lng/end_lng: The start and end longitudes and latitudes for each bike ride.
-* member_casual: The data can only be 2 string values. Either 'casual' or 'member'. A casual user pays per ride, while a member pays yearly. The stakeholders want to make more casual riders become members. 
+* member_casual: The data can only be 2 string values. Either 'casual' or 'member'. A casual user pays per ride, while a member pays yearly. The stakeholders want to make more casual riders become members.
+* ride_length: How long the ride went on for in the format HH:MM:SS.
 * start_hour/end_hour: The start and end hour on a 24-hour clock. This allows me to get a general idea of what time of the day bikes are rented.
 * start_date/end_date: The start and end date that the bikes are rented.
+* day_of_week: The day of the week in text from 'Monday' to 'Sunday'.
 
+##
 **Cleaning the data**
+
 Now I have all my data filtered, sorted, and modified for analysis the last thing I need to do is clean the data. This entails removing rows that have invalid data that could potentially cause unintended bias in the data. An example of this would be if a classic bike doesn't have a start or end location.
 
 Here are the following cleaning steps I have taken:
-* Replace docked_bike with classic_bike as the docked bike is a legacy name for the classic bike.
+* Search the rideable_type and replace 'docked_bike' with 'classic_bike' as the docked bike is a legacy name for the classic bike. Then check if there are only 2 distinct values in the column. 
 ```sql
 UPDATE bike_rides
 SET rideable_type = 'classic_bike'
 WHERE rideable_type = 'docked_bike'
 ```
+```sql
+/* lists all of the distinct instances of rideable_type */
+SELECT DISTINCT rideable_type FROM bike_rides
+```
+
+**Output**
+
+![image](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/47329386-3ff5-4248-b25d-482764d09280)
+
+* Make sure there are only 2 values for the member_casual column, 'member' or 'casual'.
+```sql
+/* Lists all of the distinct instances of member_casual */
+SELECT DISTINCT member_casual FROM bike_rides
+```
+
+**Output**
+
+![image](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/d2f2025f-068f-4278-ac26-a51f64e83951)
+
 * Delete any rows where a classic bike has no start and/or end station.
+```sql
+DELETE FROM bike_rides
+WHERE rideable_type = 'classic_bike' AND
+	(start_station_name IS NULL OR
+	end_station_name IS NULL)
+```
+
+**Output**
+
+```
+DELETE 9167
+
+Query returned successfully in 1 secs 604 msec.
+```
 
 * Delete any rows where the start/end longitude or latitude are null.
-* Format the start and end station names and trim beginning and end spaces.
-* Remove trips under 1 minute and above 1 day.
+```sql
+DELETE FROM bike_rides
+WHERE start_lat IS NULL OR
+	start_lng IS NULL OR
+	end_lat IS NULL OR
+	end_lng IS NULL;
+```
 
+* Remove trips under 1 minute and above 1 day.
+```sql
+DELETE FROM bike_rides
+WHERE ride_length > interval '24:00:00' OR 
+	ride_length < interval '00:01:00'
+```
+
+**Output**
+```
+DELETE 368098
+
+Query returned successfully in 19 secs 151 msec.
+```
+
+### Analyze
