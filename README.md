@@ -240,4 +240,95 @@ DELETE 368098
 Query returned successfully in 19 secs 151 msec.
 ```
 
-### Analyze
+### Analyse and Share
+Now I have done the preparation, processing, and cleaning of my data I can begin to analyse my data from PostgreSQL using Tableau.
+
+To download my PostgreSQL database as a CSV file I used:
+```sql
+COPY (SELECT * FROM bike_rides) TO 
+	'D:\bike_rides_cleaned.csv' WITH csv
+```
+
+The stakeholders have given me some suggestions for data they want from my database. This includes the mean and max ride_length as well as the mode of day_of_week as well as some other equations listed below.
+
+Mean of ride_length:
+```sql
+SELECT AVG(ride_length) FROM bike_rides
+```
+**Output**
+```
+00:19:35.436667
+```
+##
+Max of ride_length:
+```sql
+SELECT MAX(ride_length) FROM bike_rides
+```
+**Output**
+
+Note: I decided to only use rides at or under 24 hours and above 1 minute.
+```
+24:00:00
+```
+##
+Mode of day_of_week:
+```sql
+SELECT day_of_week, COUNT(day_of_week) AS Count 
+FROM bike_rides
+GROUP BY day_of_week
+```
+**Output**
+```
+"Friday"	776200
+"Monday"	676882
+"Saturday"	930050
+"Sunday"	816924
+"Thursday"	712871
+"Tuesday"	709944
+"Wednesday"	723396
+```
+##
+Calculate the average ride_length for members and casual riders.
+```sql
+SELECT member_casual, AVG(ride_length) AS Count 
+FROM bike_rides
+GROUP BY member_casual
+```
+**Output**
+```
+"casual"	"00:27:00.774746"
+"member"	"00:13:27.890855"
+```
+
+##
+Calculate the average ride_length for users by day_of_week.
+```sql
+SELECT day_of_week, member_casual, 
+	AVG(ride_length) AS Avg_Ride_Length
+FROM bike_rides
+GROUP BY day_of_week, member_casual
+```
+**Output**
+```
+"Friday"	"casual"	"00:25:11.294569"
+"Friday"	"member"	"00:13:18.566936"
+"Monday"	"casual"	"00:27:17.150024"
+"Monday"	"member"	"00:12:56.638372"
+"Saturday"	"casual"	"00:29:16.245624"
+"Saturday"	"member"	"00:15:02.898144"
+"Sunday"	"casual"	"00:31:09.271476"
+"Sunday"	"member"	"00:15:23.264523"
+"Thursday"	"casual"	"00:23:30.021489"
+"Thursday"	"member"	"00:12:41.556728"
+"Tuesday"	"casual"	"00:24:30.00403"
+"Tuesday"	"member"	"00:12:36.320822"
+"Wednesday"	"casual"	"00:23:41.512825"
+"Wednesday"	"member"	"00:12:44.285322"
+```
+##
+
+
+
+
+
+
