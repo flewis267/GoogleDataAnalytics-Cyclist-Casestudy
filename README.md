@@ -240,16 +240,8 @@ DELETE 368098
 Query returned successfully in 19 secs 151 msec.
 ```
 
-### Analyse and Share
-Now I have done the preparation, processing, and cleaning of my data I can begin to analyse my data from PostgreSQL using Tableau.
-
-To download my PostgreSQL database as a CSV file I used:
-```sql
-COPY (SELECT * FROM bike_rides) TO 
-	'D:\bike_rides_cleaned.csv' WITH csv
-```
-
-The stakeholders have given me some suggestions for data they want from my database. This includes the mean and max ride_length as well as the mode of day_of_week as well as some other equations listed below.
+### Analyse
+Now I have done the preparation, processing, and cleaning of my data I can begin to analyse my data in PostgreSQL. In the process stage, I made sure that the data was formatted correctly so it could be used and manipulated effectively in the analysis stage. The stakeholders have given me some suggestions for data they want from my database. This includes the mean and max ride_length as well as the mode of day_of_week. I have added some of my own queries that I thought would be useful when sharing my data in the next stage.
 
 Mean of ride_length:
 ```sql
@@ -287,6 +279,8 @@ GROUP BY day_of_week
 "Tuesday"	709944
 "Wednesday"	723396
 ```
+Saturday is the mode with 930050 rides.
+
 ##
 Calculate the average ride_length for members and casual riders.
 ```sql
@@ -325,8 +319,35 @@ GROUP BY day_of_week, member_casual
 "Wednesday"	"casual"	"00:23:41.512825"
 "Wednesday"	"member"	"00:12:44.285322"
 ```
+
+##
+To download my PostgreSQL queries as a CSV file I used variations of:
+```sql
+COPY (SELECT * FROM bike_rides) TO 
+	'D:\bike_rides_cleaned.csv' WITH csv
+```
+
+I am surprised by the fact that casual users took longer average rides than members. The average length of a ride for a casual user was 27 minutes exactly and 13 minutes and 27 seconds for members. I think this could either be down to members using the bikes more frequently for shorter trips as it's cheaper whilst a casual user might take it out for longer but less frequently. I also noticed an interesting trend when calculating the mode of day_of_week. All the days of the week have a similar total amount of rides with the maximum difference between days being a 253168 difference from Saturday to Monday.
+
+These insights will be crucial in answering the business question **How do annual members and casual riders use Cyclistic bikes differently** as it shows clearly how the different categories of riders use the Cyclistic service. The most important thing to pass on to the stakeholders is the fact that for rides under 24 hours, casual riders spend double the time per ride than members.
+
+### Share
+I have collected data and analysed it in Tableau with the intention of answering the question of how annual members and casual riders use Cyclistic bikes differently. I believe with the data I have collected, I can start to answer that question. The data tells a story that proves members use the bikes more often than regular casual users. Most riders overall start their trips between 3 PM and 4 PM. Below I have some data that shows my methodology in answering the question above.
+
+
+For my first insight I examined the types of bikes people were using and what proportion of bike riders were casual riders or members.
+![rideable_type](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/29d7dbb9-3f59-4226-b3c0-cc57fba1c868)
+Members makeup 55.44% of classic bike users and 53.67% of electric bike riders and casual riders make up the rest. It should be noted, however, that both members and casual users prefer classic bikes over electric bikes. The difference in members vs. casual riders on classic and electric bikes is so minimal that it does not affect the results in any meaningful way.
+
 ##
 
+![Bike rides per day of the week 2021](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/87b361c8-7cab-4b00-8432-d783f189d1fc)
+
+##
+![start_at (weekdays)](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/fcc17c6a-e9bc-4232-a7cb-076efb2ddad0)
+
+##
+![start_hour](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/955c0c78-6439-40ed-a043-72a77f16684c)
 
 
 
