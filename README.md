@@ -353,9 +353,11 @@ This shows the time of day when casual riders mostly start a ride. In the middle
 During the sharing process, I was defining the difference between casual riders and members. The stakeholders, in this case, the marketing department can use my insights to develop a new marketing strategy. I have also been able to outline some problems with the data provided to me. The main issue I had was that I had no way of knowing how many rides each individual user took. This means that I am unsure how many more rides members took than casual riders, I wanted to add the rides per unique user into my data as this would have given me greater flexibility in answering the question set forth by the stakeholders, **How do annual members and casual riders use Cyclistic bikes differently**. Another thing I picked up when writing my SQL queries is that a large percentage of casual riders are also tourists, this means that there would be almost no ability to convert them to members unless Cyclistic expanded beyond Chicago.
 
 My top three recommendations based on the data I have analysed:
-1. Cyclistic could look into new subscription models that mimic how the annual membership works by on a shorter scale and/or at a certain time of day. An example of this would be annual nighttime passes. As the insights above showed at night most riders are casual riders.
-2. Cyclistic could also use my insights to target their advertising based on local areas where there are classic bike stations. Both members and casual users used more classic bikes overall, so by targeting these people Cyclistic would get more users that should therefore translate into more annual members.     
-3. 
+1. Cyclistic could look into new subscription models that mimic how the annual membership works on a shorter scale and/or at a certain time of day. An example of this would be annual nighttime passes. As the insights above showed at night most riders are casual riders.
+2. Cyclistic could also use my insights to target their advertising based on local areas where there are classic bike stations. Both members and casual users used more classic bikes overall, so by targeting these people Cyclistic would get more users which should therefore translate into more annual members.     
+3. The final recommendation I have for the stakeholders at Cyclistic is to give an incentive to casual riders who use the bikes for a significant amount of time. My findings show that casual riders spend 27 minutes per ride on average compared to annual members who spend 13 minutes and 27 seconds. The Cyclistic marketing team could advertise ~10% off membership to casual riders who've rode the bikes over a certain time threshold.
 
+
+### Cyclistic Capstone Project By Felix Lewis
 
 
