@@ -327,7 +327,7 @@ COPY (SELECT * FROM bike_rides) TO
 	'D:\bike_rides_cleaned.csv' WITH csv
 ```
 
-I am surprised by the fact that casual users took longer average rides than members. The average length of a ride for a casual user was 27 minutes exactly and 13 minutes and 27 seconds for members. I think this could either be down to members using the bikes more frequently for shorter trips as it's cheaper whilst a casual user might take it out for longer but less frequently. I also noticed an interesting trend when calculating the mode of day_of_week. All the days of the week have a similar total amount of rides with the maximum difference between days being a 253168 difference from Saturday to Monday.
+I am surprised by the fact that casual users took longer average rides than members. The average length of a ride for a casual user was 27 minutes exactly and 13 minutes and 27 seconds for members. I think this could either be down to members using the bikes more frequently for shorter trips as it's cheaper whilst a casual user might take it out for longer but less frequently. I also noticed an interesting trend when calculating the mode of day_of_week. All the days of the week have a similar total amount of rides, with the maximum difference between days being 253168 from Saturday to Monday.
 
 These insights will be crucial in answering the business question **How do annual members and casual riders use Cyclistic bikes differently** as it shows clearly how the different categories of riders use the Cyclistic service. The most important thing to pass on to the stakeholders is the fact that for rides under 24 hours, casual riders spend double the time per ride than members.
 
@@ -345,12 +345,17 @@ Another idea I had was to focus my analysis on each day of the week. The reason 
 Unfortunately, the percentage of casual riders vs. members does not really change at all on any day. This surprised me as I expected there to be more casual riders on the weekends.
 
 ##
-My third idea I wanted to try was to check how casual and member riders used the bikes by start hour (24-hour clock). I was looking for a time of day (in chunks of 2 hours) when casual riders outweighed members.
+The third idea I wanted to try was to check how casual and member riders used the bikes by start hour (24-hour clock). I was looking for a time of day (in chunks of 2 hours) when casual riders outweighed members.
 ![start_hour](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/955c0c78-6439-40ed-a043-72a77f16684c)
 This shows the time of day when casual riders mostly start a ride. In the middle of the day from around 10 AM to 10 PM, the number of casual riders is dwarfed by members but still has a significant rider base. Between 10 PM to 4 AM, there are more casual riders than members although the number of rides taken is significantly less. 
 
 ### Act
-During the sharing process I was defining the difference between casual riders and members. The stakeholders, in this case, the marketing department can 
+During the sharing process, I was defining the difference between casual riders and members. The stakeholders, in this case, the marketing department can use my insights to develop a new marketing strategy. I have also been able to outline some problems with the data provided to me. The main issue I had was that I had no way of knowing how many rides each individual user took. This means that I am unsure how many more rides members took than casual riders, I wanted to add the rides per unique user into my data as this would have given me greater flexibility in answering the question set forth by the stakeholders, **How do annual members and casual riders use Cyclistic bikes differently**. Another thing I picked up when writing my SQL queries is that a large percentage of casual riders are also tourists, this means that there would be almost no ability to convert them to members unless Cyclistic expanded beyond Chicago.
+
+My top three recommendations based on the data I have analysed:
+1. Cyclistic could look into new subscription models that mimic how the annual membership works by on a shorter scale and/or at a certain time of day. An example of this would be annual nighttime passes. As the insights above showed at night most riders are casual riders.
+2. Cyclistic could also use my insights to target their advertising based on local areas where there are classic bike stations. Both members and casual users used more classic bikes overall, so by targeting these people Cyclistic would get more users that should therefore translate into more annual members.     
+3. 
 
 
 
