@@ -340,16 +340,17 @@ For my first insight I examined the types of bikes people were using and what pr
 Members makeup 55.44% of classic bike users and 53.67% of electric bike riders and casual riders make up the rest. It should be noted, however, that both members and casual users prefer classic bikes over electric bikes. The difference in members vs. casual riders on classic and electric bikes is so minimal that it does not affect the results in any meaningful way.
 
 ##
-
+Another idea I had was to focus my analysis on each day of the week. The reason for this is I wanted to know if casual riders used the bikes more on the weekend or maybe at a certain time of day.
 ![Bike rides per day of the week 2021](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/87b361c8-7cab-4b00-8432-d783f189d1fc)
+Unfortunately, the percentage of casual riders vs. members does not really change at all on any day. This surprised me as I expected there to be more casual riders on the weekends.
 
 ##
-![start_at (weekdays)](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/fcc17c6a-e9bc-4232-a7cb-076efb2ddad0)
-
-##
+My third idea I wanted to try was to check how casual and member riders used the bikes by start hour (24-hour clock). I was looking for a time of day (in chunks of 2 hours) when casual riders outweighed members.
 ![start_hour](https://github.com/flewis267/GoogleDataAnalytics-Cyclist-Casestudy/assets/81341510/955c0c78-6439-40ed-a043-72a77f16684c)
+This shows the time of day when casual riders mostly start a ride. In the middle of the day from around 10 AM to 10 PM, the number of casual riders is dwarfed by members but still has a significant rider base. Between 10 PM to 4 AM, there are more casual riders than members although the number of rides taken is significantly less. 
 
-
+### Act
+During the sharing process I was defining the difference between casual riders and members. The stakeholders, in this case, the marketing department can 
 
 
 
