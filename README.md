@@ -175,6 +175,8 @@ The columns of my database:
 
 Now I have all my data filtered, sorted, and modified for analysis the last thing I need to do is clean the data. This entails removing rows that have invalid data that could potentially cause unintended bias in the data. An example of this would be if a classic bike doesn't have a start or end location.
 
+*I was on a laptop when I wrote this SQL code and it kept crashing so I decided to remove the rows from the database, this worked to stop the crashing although it's not the most effective way to write the code.*
+
 Here are the following cleaning steps I have taken:
 * Search the rideable_type and replace 'docked_bike' with 'classic_bike' as the docked bike is a legacy name for the classic bike. Then check if there are only 2 distinct values in the column. 
 ```sql
